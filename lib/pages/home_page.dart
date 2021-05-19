@@ -29,43 +29,48 @@ class _HomePageState extends State<HomePage>
   Widget buildBody() => ListView.builder(
       itemCount: chats.length,
       itemBuilder: (context, index) =>
-          Column(
-            children: <Widget>[
-              Divider(
-                height: 10.0,
-              ),
-              ListTile(
-                leading: CircleAvatar(
-                  foregroundColor: Theme
-                      .of(context)
-                      .primaryColor,
-                  backgroundColor: Colors.grey,
-                  backgroundImage: NetworkImage(chats[index].profilePictureUrl),
-                ),
-                title: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text(
-                      chats[index].name,
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      chats[index].lastMessage.time,
-                      style: TextStyle(color: Colors.grey, fontSize: 14.0),
-                    ),
-                  ],
-                ),
-                subtitle: Container(
-                  padding: const EdgeInsets.only(top: 5.0),
-                  child: Text(
-                    chats[index].lastMessage.message,
-                    style: TextStyle(color: Colors.grey, fontSize: 15.0),
-                  ),
-                ),
-              )
-            ],
-          ),
+          buildChatItem(context, index),
     );
+
+  Widget buildChatItem(BuildContext context, int index) {
+    return Column(
+          children: <Widget>[
+            Divider(
+              height: 10.0,
+            ),
+            ListTile(
+              leading: CircleAvatar(
+                foregroundColor: Theme
+                    .of(context)
+                    .primaryColor,
+                backgroundColor: Colors.grey,
+                radius: 30,
+                backgroundImage: NetworkImage(chats[index].profilePictureUrl),
+              ),
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    chats[index].name,
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    chats[index].lastMessage.time,
+                    style: TextStyle(color: Colors.grey, fontSize: 14.0),
+                  ),
+                ],
+              ),
+              subtitle: Container(
+                padding: const EdgeInsets.only(top: 5.0),
+                child: Text(
+                  chats[index].lastMessage.message,
+                  style: TextStyle(color: Colors.grey, fontSize: 15.0),
+                ),
+              ),
+            )
+          ],
+        );
+  }
 
   Widget buildAppBar() {
     return AppBar(
