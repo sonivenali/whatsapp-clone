@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:whatsapp_clone/data/dummy_data.dart';
+import 'package:whatsapp_clone/pages/chat_page.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -26,50 +27,63 @@ class _HomePageState extends State<HomePage>
     );
   }
 
-  Widget buildBody() => ListView.builder(
-      itemCount: chats.length,
-      itemBuilder: (context, index) =>
-          buildChatItem(context, index),
-    );
+  Widget buildBody() => TabBarView(
+        controller: homeTabController,
+        children: [
+          Container(),
+          ListView.builder(
+            itemCount: chats.length,
+            itemBuilder: (context, index) => buildChatItem(context, index),
+          ),
+          Container(),
+          Container()
+        ],
+      );
 
   Widget buildChatItem(BuildContext context, int index) {
-    return Column(
-          children: <Widget>[
-            Divider(
-              height: 10.0,
-            ),
-            ListTile(
-              leading: CircleAvatar(
-                foregroundColor: Theme
-                    .of(context)
-                    .primaryColor,
-                backgroundColor: Colors.grey,
-                radius: 30,
-                backgroundImage: NetworkImage(chats[index].profilePictureUrl),
-              ),
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text(
-                    chats[index].name,
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    chats[index].lastMessage.time,
-                    style: TextStyle(color: Colors.grey, fontSize: 14.0),
-                  ),
-                ],
-              ),
-              subtitle: Container(
-                padding: const EdgeInsets.only(top: 5.0),
-                child: Text(
-                  chats[index].lastMessage.message,
-                  style: TextStyle(color: Colors.grey, fontSize: 15.0),
-                ),
-              ),
-            )
-          ],
+    return InkWell(
+      onTap: (){
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => ChatPage(chats[index])),
         );
+      },
+      child: Column(
+        children: <Widget>[
+          Divider(
+            height: 10.0,
+          ),
+          ListTile(
+            leading: CircleAvatar(
+              foregroundColor: Theme.of(context).primaryColor,
+              backgroundColor: Colors.grey,
+              radius: 30,
+              backgroundImage: NetworkImage(chats[index].profilePictureUrl),
+            ),
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(
+                  chats[index].name,
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  chats[index].lastMessage.time,
+                  style: TextStyle(color: Colors.grey, fontSize: 14.0),
+                ),
+              ],
+            ),
+            subtitle: Container(
+              padding: const EdgeInsets.only(top: 5.0),
+              child: Text(
+                chats[index].lastMessage.message,
+                style: TextStyle(color: Colors.grey, fontSize: 15.0),
+              ),
+            ),
+          )
+        ],
+      ),
+    );
   }
 
   Widget buildAppBar() {
